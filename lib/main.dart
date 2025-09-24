@@ -25,6 +25,16 @@ class CounterWidget extends StatefulWidget {
 }
 
 class _CounterWidgetState extends State<CounterWidget> {
+  Color _getActiveColor() {
+    if (_counter <= 30) {
+      return Colors.red;
+    } else if (_counter <= 70) {
+      return Colors.yellow;
+    } else {
+      return Colors.green;
+    }
+  }
+
 //set counter value
   int _counter = 0;
   @override
@@ -39,7 +49,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         children: [
           Center(
             child: Container(
-              color: Colors.blue,
+color: _getActiveColor(),
               child: Text(
 //to displays current number
                 '$_counter',
@@ -56,8 +66,8 @@ class _CounterWidgetState extends State<CounterWidget> {
                 _counter = value.toInt();
               });
             },
-            activeColor: Colors.blue,
-            inactiveColor: Colors.red,
+            activeColor: _getActiveColor(),
+            inactiveColor: Colors.black,
           ),
         ],
       ),
