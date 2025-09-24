@@ -73,7 +73,20 @@ color: _getActiveColor(),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 160),
-        child: FloatingActionButton.extended(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+        FloatingActionButton.extended(
+              onPressed: () {
+                setState(() {
+                  _counter = (_counter - 1).clamp(0, 100).toInt(); // never < 0
+                });
+              },
+              icon: const Icon(Icons.remove_circle_outline),
+              label: const Text('Abort'),
+            ),
+
+        FloatingActionButton.extended(
           onPressed: () {
             setState(() {
               _counter = (_counter + 1).clamp(0, 100);
@@ -82,6 +95,17 @@ color: _getActiveColor(),
           icon: const Icon(Icons.local_fire_department),
           label: const Text('Ignite'),
         ),
+        FloatingActionButton.extended(
+              onPressed: () {
+                setState(() {
+                  _counter = 0;
+                });
+              },
+              icon: const Icon(Icons.autorenew),
+              label: const Text('Reset'),
+            ),
+          ],
+      ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
