@@ -1,15 +1,21 @@
-allprojects {
+// File: android/build.gradle (project-level)
+buildscript {
+    // Usually empty with modern plugins DSL; keep if some legacy plugin still needs it
     repositories {
         google()
         mavenCentral()
     }
+    // No AGP classpath here because AGP is declared in settings.gradle plugins{}
+}
+
+allprojects {
+    // Often empty when using dependencyResolutionManagement in settings.gradle
 }
 
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
+    // If you need evaluationDependsOn, keep it:
     project.evaluationDependsOn(":app")
 }
 
