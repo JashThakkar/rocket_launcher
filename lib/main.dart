@@ -35,6 +35,36 @@ class _CounterWidgetState extends State<CounterWidget> {
     }
   }
 
+  void _showMaxAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("100 Was ACHIVED"),
+          content: const Text("Counter has reached 100! Ready for launch?"),
+          actions: [
+            TextButton(
+              child: const Text("Launch"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Optional: Add your launch logic here
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _updateCounter(int value) {
+    setState(() {
+      _counter = value.clamp(0, 100);
+      if (_counter == 100) {
+        _showMaxAlert();
+      }
+    });
+  }
+
 //set counter value
   int _counter = 0;
   @override
@@ -62,9 +92,7 @@ class _CounterWidgetState extends State<CounterWidget> {
             max: 100,
             value: _counter.toDouble(),
             onChanged: (double value) {
-              setState(() {
-                _counter = value.toInt();
-              });
+              _updateCounter(value.toInt());
             },
             activeColor: _getActiveColor(),
             inactiveColor: Colors.black,
@@ -76,36 +104,23 @@ class _CounterWidgetState extends State<CounterWidget> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-        FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  _counter = (_counter - 1).clamp(0, 100).toInt(); // never < 0
-                });
-              },
+            FloatingActionButton.extended(
+              onPressed: () => _updateCounter(_counter - 1),
               icon: const Icon(Icons.remove_circle_outline),
               label: const Text('Abort'),
             ),
-
-        FloatingActionButton.extended(
-          onPressed: () {
-            setState(() {
-              _counter = (_counter + 1).clamp(0, 100);
-            });
-          },
-          icon: const Icon(Icons.local_fire_department),
-          label: const Text('Ignite'),
-        ),
-        FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  _counter = 0;
-                });
-              },
+            FloatingActionButton.extended(
+              onPressed: () => _updateCounter(_counter + 1),
+              icon: const Icon(Icons.local_fire_department),
+              label: const Text('Ignite'),
+            ),
+            FloatingActionButton.extended(
+              onPressed: () => _updateCounter(0),
               icon: const Icon(Icons.autorenew),
               label: const Text('Reset'),
             ),
           ],
-      ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
