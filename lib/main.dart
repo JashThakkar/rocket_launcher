@@ -49,7 +49,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         children: [
           Center(
             child: Container(
-color: _getActiveColor(),
+              color: _getActiveColor(),
               child: Text(
 //to displays current number
                 '$_counter',
